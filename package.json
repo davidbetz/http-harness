@@ -1,0 +1,15 @@
+{
+  "name": "http-harness",
+  "version": "1.0.4",
+  "description": "",
+  "keywords": [],
+  "author": "David Betz",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "memorydb": "^1.0.2"
+  }
+}
