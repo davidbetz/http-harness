@@ -1,6 +1,6 @@
 # HTTP Harness for Node.js API Development
 
-**Copyright (C) 2016 David Betz**
+**Copyright (C) 2016-2017 David Betz**
 
 ## Purpose
 
