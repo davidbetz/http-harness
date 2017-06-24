@@ -2,6 +2,8 @@
 
 **Copyright (C) 2016-2017 David Betz**
 
+[![Build Status](https://travis-ci.org/davidbetz/http-harness.svg?branch=master)](https://travis-ci.org/davidbetz/http-harness)
+
 ## Purpose
 
 Put simply: **to aid in building Node.js HTTP APIs**
