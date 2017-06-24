@@ -5,6 +5,9 @@
   "keywords": [],
   "author": "David Betz",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha test"
+  },
   "devDependencies": {
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
