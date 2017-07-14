@@ -3,6 +3,7 @@
 **Copyright (C) 2016-2017 David Betz**
 
 [![Build Status](https://travis-ci.org/davidbetz/http-harness.svg?branch=master)](https://travis-ci.org/davidbetz/http-harness)
+[![npm version](https://badge.fury.io/js/http-harness.svg)](https://badge.fury.io/js/http-harness)
 
 ## Purpose
 
