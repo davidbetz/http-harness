@@ -22,8 +22,8 @@
 
 "use strict"
 
-var sampleEndpoint = require("./sample")
+var samplesEndpoint = require("./samples")
 
 module.exports.init = function (app) {
-    sampleEndpoint.init(app)
+    samplesEndpoint.init(app)
 }

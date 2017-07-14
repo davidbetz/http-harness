@@ -27,8 +27,9 @@ const url = require('url')
 const debug = require('debug')('api')
 
 const memorydb = require('memorydb')
+const idgen = memorydb.idgen
+
 const response = require('../response')
-const idgen = require('../idgen')
 
 module.exports.get = function (req, res) {
     debug("GET /api/samples")
@@ -59,7 +60,7 @@ module.exports.post = function (req, res, next) {
         return response.send401(res)
     }
     const user_id = req.user._id
-    const session_id = idgen.generate('0')
+    const session_id = idgen.generate('POST /api/samples' + user_id)
     const item = Object.assign({}, req.body)
     memorydb.insert(user_id, session_id, item)
         .then(p => response.sendJson(res, 200, p))
@@ -72,15 +73,15 @@ module.exports.deleteWithId = function (req, res, next) {
         return response.send401(res)
     }
     const user_id = req.user._id
-    const session_id = idgen.generate('0')
+    const session_id = idgen.generate('DELETE /api/samples/:id' + user_id)
     memorydb.delete(user_id, session_id)
         .then(p => response.sendJson(res, 204, {}))
         .catch(err => response.routeError(res, err))
 }
 
 module.exports.init = function (app) {
-    app.post("/api/samples", auth0.authCheck, module.exports.postSample)
-    app.delete("/api/samples/:id", auth0.authCheck, module.exports.deleteSampleWithId)
-    app.get("/api/samples", auth0.authCheck, module.exports.getSamples)
-    app.get("/api/samples/:id", auth0.authCheck, module.exports.getSampleWithId)
+    app.post("/api/samples", module.exports.post)
+    app.delete("/api/samples/:id", module.exports.deleteWithId)
+    app.get("/api/samples", module.exports.get)
+    app.get("/api/samples/:id", module.exports.getWithId)
 }
