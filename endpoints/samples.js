@@ -29,7 +29,7 @@ const debug = require('debug')('api')
 const memorydb = require('memorydb')
 const idgen = memorydb.idgen
 
-const response = require('../response')
+const response = require('./response')
 
 module.exports.get = function (req, res) {
     debug("GET /api/samples")
