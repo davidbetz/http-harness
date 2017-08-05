@@ -2,8 +2,12 @@
 
 **Copyright (C) 2016-2017 David Betz**
 
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 [![Build Status](https://travis-ci.org/davidbetz/http-harness.svg?branch=master)](https://travis-ci.org/davidbetz/http-harness)
 [![npm version](https://badge.fury.io/js/http-harness.svg)](https://badge.fury.io/js/http-harness)
+[![coverage](https://img.shields.io/codecov/c/github/davidbetz/http-harness.svg)](https://img.shields.io/codecov/c/github/davidbetz/http-harness.svg)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/davidbetz)
+
 
 ## Purpose
 
