@@ -22,58 +22,61 @@
 
 "use strict"
 
-const REQ = options => {
-    let core = {
-        body: {},
-        params: {},
+class Request {
+    constructor(options) {
+        this.body = {}
+        this.params = {}
+        const optionsCopy = Object.assign({}, options)
+        for (let name in options) {
+            this[name] = optionsCopy[name]
+        }
     }
-    const optionsCopy = Object.assign({}, options)
-    for (let name in optionsCopy) {
-        core[name] = optionsCopy[name]
-    }
-    return core
 }
 
-const RES = {
-    setDone: (func) => {
+class Response {
+    constructor() {
+        /* istanbul ignore next */
+        this.done = () => { }
+    }
+
+    setDone(func) {
         this.done = func
-    },
-    set: (name, value) => {
+    }
+
+    set(name, value) {
         this.hash = this.hash || {}
         this.hash[name] = value
-    },
-    status: (code) => {
+    }
+
+    status(code) {
         const self = this
         this.code = code
         return {
             json: (json_obj) => {
+                self.send_obj = undefined
                 self.json_obj = json_obj
-                if (self.done) {
-                    self.done(self)
-                }
+                self.done(this)
             }
         }
-    },
-    send: (send_obj) => {
+    }
+
+    send(send_obj) {
+        this.json_obj = undefined
         this.send_obj = send_obj
-        if (this.done) {
-            this.done(this)
-        }
+        this.done(this)
     }
 }
 
 function createRequest(options) {
-    let req = Object.assign({}, REQ(options))
+    let req = new Request(options)
     if (typeof req.url === 'undefined') {
-        throw 'req.url is required'
+        throw new Error('req.url is required')
     }
-    req.body = req.body || {}
-    req.params = req.params || {}
     return req
 }
 
 function createResponse() {
-    return Object.assign({}, RES)
+    return new Response()
 }
 
 module.exports.createResponse = createResponse

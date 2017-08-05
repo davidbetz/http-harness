@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2016 David Betz
+// Copyright (c) 2016-2017 David Betz
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-"use strict"
+const debug = require('debug')('test')
 
-const sendJson = (res, status, obj) => {
-    res.status(status).json(obj)
+let beautify
+try {
+    beautify = require('js-beautify')
+}
+catch (ex) {
 }
 
-const sendError = (res, err) => {
-    res.status(500).json({ "error": typeof err === 'string' ? err : JSON.stringify(err) })
-}
-
-const sendRaw = (res, status, obj) => {
-    res.set('Content-Type', 'text/plain')
-    res.status(status)
-    res.send(obj.toString())
-}
-
-const send404 = (res) => res.status(404).json({ "error": "not found" })
-
-const send401 = (res) => res.status(401).json({ "error": "unauthorized access" })
-
-const routeError = (res, err) => {
-    if (err === 401) {
-        send401(res)
+/* istanbul ignore next */
+function b(obj) {
+    if (typeof obj === 'number' || typeof obj === 'string') {
+        return obj
     }
-    else if (err === 404) {
-        send404(res)
+    if (!obj) {
+        return "[BLANK]"
     }
-    else {
-        sendError(res, err)
+    return typeof beautify !== 'undefined' ? beautify.js_beautify(JSON.stringify(obj)) : JSON.stringify(obj)
+}
+
+/* istanbul ignore next */
+function dump(title, obj, output = debug) {
+    output(`${title}:${b(obj)}`)
+}
+
+/* istanbul ignore next */
+function m(name) {
+    // console.trace('')
+    throw new Error(`missing ${name}`)
+}
+
+/* istanbul ignore next */
+function validate_type(obj = m('obj'), type = m('type')) {
+    if (typeof obj !== type) {
+        console.trace('parameter is expected to be ' + type)
+        throw 'type mismatch'
     }
 }
 
-module.exports = { sendRaw, sendJson, sendError, send404, send401, routeError }
+exports.validate_type = validate_type
+exports.dump = dump
+exports.b = b
+exports.m = m 

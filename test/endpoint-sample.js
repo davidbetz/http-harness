@@ -31,6 +31,7 @@ const memorydb = require('memorydb')
 const samples = require("../endpoints/samples")
 const httpHarness = require('../http-harness')
 const idgen = require('../idgen')
+const u = require('../utility')
 
 const createRequestOptions = () => {
     return Object.assign({}, {
@@ -43,6 +44,100 @@ const createRequestOptions = () => {
 describe("GET /api/samples", function () {
     beforeEach(() => {
         memorydb.resetDatabase()
+    })
+
+    it("gets (without url)", function (done) {
+        const user_id = idgen.generate('0')
+        try {
+            httpHarness.createRequest({})
+            expect(1).to.eq(0)
+        }
+        catch (ex) {
+            expect(ex.message).to.eq('req.url is required')
+            done()
+        }
+    })
+
+    it("gets metadata (send_obj)", function (done) {
+        const user_id = idgen.generate('0')
+        let ro = createRequestOptions()
+        ro.user._id = user_id
+        ro.body = { value: 12345 }
+
+        let req = httpHarness.createRequest(ro)
+        let res = httpHarness.createResponse()
+
+        res.setDone((obj) => {
+            ro = createRequestOptions()
+            ro.user._id = user_id
+            ro.body = { value: 67890 }
+
+            req = httpHarness.createRequest(ro)
+            res = httpHarness.createResponse()
+
+            res.setDone((obj) => {
+                expect(obj.code).to.equal(200)
+                const session_id = obj.json_obj
+
+                ro = createRequestOptions()
+                ro.user._id = user_id
+                ro.body = { value: 12345 }
+
+                req = httpHarness.createRequest(ro)
+                res = httpHarness.createResponse()
+                req.url += '?metadata'
+
+                res.setDone((obj) => {
+                    const results = obj.send_obj
+                    expect(obj.json_obj).to.be.undefined
+                    expect(obj.send_obj).to.eq('2')
+                    done()
+                })
+                samples.get(req, res, () => { })
+            })
+            samples.post(req, res, () => { })
+        })
+        samples.post(req, res, () => { })
+    })
+
+    it("gets all", function (done) {
+        const user_id = idgen.generate('0')
+        let ro = createRequestOptions()
+        ro.user._id = user_id
+        ro.body = { value: 12345 }
+
+        let req = httpHarness.createRequest(ro)
+        let res = httpHarness.createResponse()
+
+        res.setDone((obj) => {
+            ro = createRequestOptions()
+            ro.user._id = user_id
+            ro.body = { value: 67890 }
+
+            req = httpHarness.createRequest(ro)
+            res = httpHarness.createResponse()
+
+            res.setDone((obj) => {
+                expect(obj.code).to.equal(200)
+                const session_id = obj.json_obj
+
+                ro = createRequestOptions()
+                ro.user._id = user_id
+                ro.body = { value: 12345 }
+
+                req = httpHarness.createRequest(ro)
+                res = httpHarness.createResponse()
+
+                res.setDone((obj) => {
+                    const results = obj.json_obj
+                    expect(results.length).to.eq(2)
+                    done()
+                })
+                samples.get(req, res, () => { })
+            })
+            samples.post(req, res, () => { })
+        })
+        samples.post(req, res, () => { })
     })
 
     it("gets all", function (done) {

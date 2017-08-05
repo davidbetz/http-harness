@@ -2,6 +2,8 @@
 logs
 *.log
 npm-debug.log*
+package-lock.json
+.coverage-cache
 
 # Runtime data
 pids

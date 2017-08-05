@@ -1,16 +1,20 @@
 {
   "name": "http-harness",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "keywords": [],
   "author": "David Betz",
   "license": "MIT",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "report-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && codecov"
   },
   "devDependencies": {
     "chai": "^4.1.0",
+    "codecov": "^2.3.0",
+    "istanbul": "^0.4.5",
     "memorydb": "^1.0.5",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "jsbeautify": "^0.3.6"
   }
 }

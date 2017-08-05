@@ -30,15 +30,26 @@ const memorydb = require('memorydb')
 const idgen = memorydb.idgen
 
 const response = require('./response')
+const u = require('../utility')
 
 module.exports.get = function (req, res) {
     debug("GET /api/samples")
     if (typeof req.user === 'undefined' || typeof req.user._id === 'undefined') {
         return response.send401(res)
     }
+    const url_parts = url.parse(req.url, true)
+    const query = url_parts.query
+
     const user_id = req.user._id
     memorydb.getAll(user_id)
-        .then(p => response.sendJson(res, 200, p))
+        .then(p => {
+            if (typeof query.metadata !== 'undefined') {
+                response.sendRaw(res, 200, p.length)
+            }
+            else {
+                response.sendJson(res, 200, p)
+            }
+        })
         .catch(err => response.routeError(res, err))
 }
 
