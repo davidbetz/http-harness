@@ -22,24 +22,30 @@
 
 "use strict"
 
+/* istanbul ignore next */
 const sendJson = (res, status, obj) => {
     res.status(status).json(obj)
 }
 
+/* istanbul ignore next */
 const sendError = (res, err) => {
     res.status(500).json({ "error": typeof err === 'string' ? err : JSON.stringify(err) })
 }
 
+/* istanbul ignore next */
 const sendRaw = (res, status, obj) => {
     res.set('Content-Type', 'text/plain')
     res.status(status)
     res.send(obj.toString())
 }
 
+/* istanbul ignore next */
 const send404 = (res) => res.status(404).json({ "error": "not found" })
 
+/* istanbul ignore next */
 const send401 = (res) => res.status(401).json({ "error": "unauthorized access" })
 
+/* istanbul ignore next */
 const routeError = (res, err) => {
     if (err === 401) {
         send401(res)
