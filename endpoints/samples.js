@@ -32,6 +32,7 @@ const idgen = memorydb.idgen
 const response = require('./response')
 const u = require('../utility')
 
+/* istanbul ignore next */
 module.exports.get = function (req, res) {
     debug("GET /api/samples")
     if (typeof req.user === 'undefined' || typeof req.user._id === 'undefined') {
@@ -53,6 +54,7 @@ module.exports.get = function (req, res) {
         .catch(err => response.routeError(res, err))
 }
 
+/* istanbul ignore next */
 module.exports.getWithId = function (req, res, next) {
     debug("GET /api/samples/:id")
     if (typeof req.user === 'undefined' || typeof req.user._id === 'undefined') {
@@ -65,6 +67,7 @@ module.exports.getWithId = function (req, res, next) {
         .catch(err => response.routeError(res, err))
 }
 
+/* istanbul ignore next */
 module.exports.post = function (req, res, next) {
     debug("POST /api/samples")
     if (typeof req.user === 'undefined' || typeof req.user._id === 'undefined') {
@@ -78,6 +81,7 @@ module.exports.post = function (req, res, next) {
         .catch(err => response.routeError(res, err))
 }
 
+/* istanbul ignore next */
 module.exports.deleteWithId = function (req, res, next) {
     debug("DELETE /api/samples/:id")
     if (typeof req.user === 'undefined' || typeof req.user._id === 'undefined') {
@@ -90,6 +94,7 @@ module.exports.deleteWithId = function (req, res, next) {
         .catch(err => response.routeError(res, err))
 }
 
+/* istanbul ignore next */
 module.exports.init = function (app) {
     app.post("/api/samples", module.exports.post)
     app.delete("/api/samples/:id", module.exports.deleteWithId)
