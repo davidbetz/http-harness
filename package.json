@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.0",
-    "codecov": "^2.3.0",
+    "codecov": "^3.7.1",
     "istanbul": "^0.4.5",
     "memorydb": "^1.0.5",
     "mocha": "^3.4.2",
